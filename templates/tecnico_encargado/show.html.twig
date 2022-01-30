@@ -1,54 +1,89 @@
 {% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
 
-{% block title %}TecnicoEncargado{% endblock %}
+{% set _title = 'Configuración' %}
+{% set _main_title = 'Mostrar' %}
+{% set _section =  'tecnico_encargado_index'%}
 
-{% block body %}
-    <h1>TecnicoEncargado</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ tecnico_encargado.id }}</td>
-            </tr>
-            <tr>
-                <th>NombreTecnico</th>
-                <td>{{ tecnico_encargado.nombreTecnico }}</td>
-            </tr>
-            <tr>
-                <th>ApellidoTecnico</th>
-                <td>{{ tecnico_encargado.apellidoTecnico }}</td>
-            </tr>
-            <tr>
-                <th>Dni</th>
-                <td>{{ tecnico_encargado.dni }}</td>
-            </tr>
-            <tr>
-                <th>Direccion</th>
-                <td>{{ tecnico_encargado.direccion }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ tecnico_encargado.createdAt ? tecnico_encargado.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ tecnico_encargado.updatedAt ? tecnico_encargado.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Activo</th>
-                <td>{{ tecnico_encargado.activo ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Uuid</th>
-                <td>{{ tecnico_encargado.uuid }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('tecnico_encargado_index') }}">back to list</a>
-
-    <a href="{{ path('tecnico_encargado_edit', {'id': tecnico_encargado.id}) }}">edit</a>
-
-    {{ include('tecnico_encargado/_delete_form.html.twig') }}
+{% block _breadcrumb %}
+    {{ breadcrumb.show2(_title, _section, 'Mostrar') }}
 {% endblock %}
+
+{% block _main %}
+    {{ action.tbl_start() }}
+    {{ action.tbl_tr('Nombre',tecnico_encargado.nombreTecnico) }}
+    {{ action.tbl_tr('Apellidos',tecnico_encargado.apellidoTecnico) }}
+    {{ action.tbl_tr('DNI',tecnico_encargado.dni) }}
+    {{ action.tbl_tr('Direccion',tecnico_encargado.direccion) }}
+    {% include 'crud/_show_info.html.twig' with {'entity': tecnico_encargado} %}
+    {{ action.tbl_end() }}
+
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_show_links.html.twig' with {'route_base':'tecnico_encargado','entity': tecnico_encargado} %}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_show_links_ico.html.twig' with {'route_base':'tecnico_encargado','entity': tecnico_encargado} %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_show_links_tool.html.twig' with {'route_base':'tecnico_encargado','entity': tecnico_encargado} %}
+{% endblock %}
+
+{#{% block body %}#}
+{#    <h1>TecnicoEncargado</h1>#}
+
+{#    <table class="table">#}
+{#        <tbody>#}
+{#            <tr>#}
+{#                <th>Id</th>#}
+{#                <td>{{ tecnico_encargado.id }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>NombreTecnico</th>#}
+{#                <td>{{ tecnico_encargado.nombreTecnico }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>ApellidoTecnico</th>#}
+{#                <td>{{ tecnico_encargado.apellidoTecnico }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>Dni</th>#}
+{#                <td>{{ tecnico_encargado.dni }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>Direccion</th>#}
+{#                <td>{{ tecnico_encargado.direccion }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>CreatedAt</th>#}
+{#                <td>{{ tecnico_encargado.createdAt ? tecnico_encargado.createdAt|date('Y-m-d H:i:s') : '' }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>UpdatedAt</th>#}
+{#                <td>{{ tecnico_encargado.updatedAt ? tecnico_encargado.updatedAt|date('Y-m-d H:i:s') : '' }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>Activo</th>#}
+{#                <td>{{ tecnico_encargado.activo ? 'Yes' : 'No' }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>Uuid</th>#}
+{#                <td>{{ tecnico_encargado.uuid }}</td>#}
+{#            </tr>#}
+{#        </tbody>#}
+{#    </table>#}
+
+{#    <a href="{{ path('tecnico_encargado_index') }}">back to list</a>#}
+
+{#    <a href="{{ path('tecnico_encargado_edit', {'id': tecnico_encargado.id}) }}">edit</a>#}
+
+{#    {{ include('tecnico_encargado/_delete_form.html.twig') }}#}
+{#{% endblock %}#}

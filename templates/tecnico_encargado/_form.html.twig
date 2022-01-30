@@ -1,4 +1,33 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{% import 'macro/action.html.twig' as action %}
+
+{{ action.frm_start(form) }}
+    {{ action.frm_column(
+        action.frm_column_field(form.nombreTecnico),
+        action.frm_column_field(form.apellidoTecnico)
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field(form.dni),
+        null,
+        null,
+        null,
+        2
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field(form.direccion),
+        null,
+        null,
+        null,
+        2
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_btn(button_label|default('Guardar')),
+        null,
+        null,
+        null,
+        2
+    ) }}
+
+{{ action.frm_end(form) }}

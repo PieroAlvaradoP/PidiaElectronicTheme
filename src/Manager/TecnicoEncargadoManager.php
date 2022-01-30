@@ -16,6 +16,7 @@ final class TecnicoEncargadoManager extends BaseManager
 {
     public function repositorio(): BaseRepository
     {
+//        return $this->manager()->getRepository(TecnicoEncargado::class);
         return $this->manager()->getRepository(TecnicoEncargado::class);
     }
 }

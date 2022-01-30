@@ -16,12 +16,6 @@ class TecnicoEncargadoType extends AbstractType
             ->add('apellidoTecnico')
             ->add('dni')
             ->add('direccion')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('activo')
-            ->add('uuid')
-            ->add('propietario')
-            ->add('config')
         ;
     }
 

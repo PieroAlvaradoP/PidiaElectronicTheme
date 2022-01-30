@@ -12,6 +12,7 @@ use Pidia\Apps\Demo\Repository\EquipoMarcaRepository;
 class EquipoMarca
 {
     use EntityTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -50,6 +51,11 @@ class EquipoMarca
         $this->detalleMarca = $detalleMarca;
 
         return $this;
+    }
+
+    public function getActivo(): ?string
+    {
+        return $this->activo;
     }
 
     public function changeActivo(): void

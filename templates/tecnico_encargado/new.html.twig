@@ -1,11 +1,42 @@
 {% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
 
-{% block title %}New TecnicoEncargado{% endblock %}
+{% set _title = 'Tecnico' %}
+{% set _main_title = 'Nuevo' %}
+{% set _section =  'tecnico_encargado_index'%}
 
-{% block body %}
-    <h1>Create new TecnicoEncargado</h1>
-
-    {{ include('tecnico_encargado/_form.html.twig') }}
-
-    <a href="{{ path('tecnico_encargado_index') }}">back to list</a>
+{% block _breadcrumb %}
+    {{ breadcrumb.show2(_title,_section,'Nuevo') }}
 {% endblock %}
+
+{% form_theme form _self %}
+
+{% block _config_menus_label -%}
+{% endblock %}
+
+{% block _config_menus_entry_widget -%}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_field_two_with_label(form.name,form.route, 'mb-0','form-control-sm') }}
+{%- endblock %}
+
+{% block _main %}
+    {{ include('tecnico_encargado/_form.html.twig') }}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_new_links_ico.html.twig' with {'route_base':'tecnico_encargado'} %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_new_links_tool.html.twig' with {'route_base': 'tecnico_encargado'}  %}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_new_links.html.twig' with {'route_base':'tecnico_encargado'} %}
+{% endblock %}
+

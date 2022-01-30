@@ -2,10 +2,10 @@
 
 namespace Pidia\Apps\Demo\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Pidia\Apps\Demo\Entity\Traits\EntityTrait;
 use Pidia\Apps\Demo\Repository\TecnicoEncargadoRepository;
-use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TecnicoEncargadoRepository::class)]
 #[HasLifecycleCallbacks]
@@ -80,5 +80,20 @@ class TecnicoEncargado
         $this->direccion = $direccion;
 
         return $this;
+    }
+
+    public function getActivo(): ?string
+    {
+        return $this->activo;
+    }
+
+    public function changeActivo(): void
+    {
+        $this->activo = !$this->getActivo();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getNombreTecnico().' '.$this->getApellidoTecnico();
     }
 }

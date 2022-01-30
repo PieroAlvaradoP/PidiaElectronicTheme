@@ -1,49 +1,100 @@
 {% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+{% import 'macro/pagination.html.twig' as pagination %}
 
-{% block title %}TecnicoEncargado index{% endblock %}
+{% set _title = 'Tecnico' %}
+{% set _main_title = 'Listado' %}
+{% set _section =  'tecnico_encargado_index' %}
 
-{% block body %}
-    <h1>TecnicoEncargado index</h1>
+{% block _breadcrumb %}
+    {{ breadcrumb.show(_title) }}
+{% endblock %}
 
-    <table class="table">
-        <thead>
+{% block _main %}
+    <div class="table-responsive">
+        {{ action.tbl_start('table-sm') }}
+        {{ action.thead_start() }}
+        <tr>
+            {{ action.th('Nombre', true) }}
+            {{ action.th('Apellidos', true) }}
+            {{ action.th('DNI', true) }}
+            {{ action.th('Direccion', true) }}
+            {{ action.th('Activo', true, 'text-center') }}
+            <th></th>
+        </tr>
+        </tr>
+        {{ action.thead_end() }}
+        {{ action.tbody_start() }}
+        {% for tecnico in paginator.results %}
             <tr>
-                <th>Id</th>
-                <th>NombreTecnico</th>
-                <th>ApellidoTecnico</th>
-                <th>Dni</th>
-                <th>Direccion</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>Activo</th>
-                <th>Uuid</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for tecnico_encargado in tecnico_encargados %}
-            <tr>
-                <td>{{ tecnico_encargado.id }}</td>
-                <td>{{ tecnico_encargado.nombreTecnico }}</td>
-                <td>{{ tecnico_encargado.apellidoTecnico }}</td>
-                <td>{{ tecnico_encargado.dni }}</td>
-                <td>{{ tecnico_encargado.direccion }}</td>
-                <td>{{ tecnico_encargado.createdAt ? tecnico_encargado.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ tecnico_encargado.updatedAt ? tecnico_encargado.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ tecnico_encargado.activo ? 'Yes' : 'No' }}</td>
-                <td>{{ tecnico_encargado.uuid }}</td>
-                <td>
-                    <a href="{{ path('tecnico_encargado_show', {'id': tecnico_encargado.id}) }}">show</a>
-                    <a href="{{ path('tecnico_encargado_edit', {'id': tecnico_encargado.id}) }}">edit</a>
-                </td>
-            </tr>
+            <td>{{ tecnico.nombreTecnico}}</td>
+            <td>{{ tecnico.apellidoTecnico }}</td>
+            <td>{{ tecnico.dni }}</td>
+            <td>{{ tecnico.direccion }}</td>
+            {#            <td><i class="{{ marca.icono }}"></i> {{ marca.icono }}</td>#}
+            <td class="text-center">{{ tecnico.activo | yesnocustom | raw }}</td>
+            <td>
+                {% if access.has('view') %}
+                    {{ action.btn_show_link2_ico(path('tecnico_encargado_show', {'id': tecnico.id})) }}
+                {% endif %}
+                {% if access.has('edit', tecnico) %}
+                    {{ action.btn_edit_link2_ico(path('tecnico_encargado_edit', {'id': tecnico.id})) }}
+                {% endif %}
+            </td>
         {% else %}
             <tr>
-                <td colspan="10">no records found</td>
+                <td colspan="4">No hay registros</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
+        {{ action.tbody_end() }}
+        {{ action.tbl_end() }}
+        </tr>
+    </div>
 
-    <a href="{{ path('tecnico_encargado_new') }}">Create new</a>
+    {{ pagination.show(paginator, _section) }}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_index_links.html.twig' with {'route_base': 'tecnico_encargado'} %}
+{% endblock%}
+
+{% block _main_options %}
+    {% include 'crud/_index_filter.html.twig' %}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'tecnico_encargado'}  %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'tecnico_encargado'}  %}
+{% endblock %}
+
+{% block _stylesheets %}
+{% endblock %}
+
+{% block _javascripts %}
+    <script>
+        $(document).ready(function () {
+            $(document).on('change', '#filter_size', function () {
+                let route = '{{ path('tecnico_encargado_index') }}';
+                route = route + "?" + 'n=' + $('#filter_size option:selected').val();
+                route = route + "&" + 'b=' + $('#filter_text').val();
+                window.location = route;
+            });
+
+            $(document).on('click', '.btn-send', function () {
+                window.location = '{{ path('tecnico_encargado_index') }}';
+            });
+
+            $(document).on('click', '.btn-clean', function () {
+                window.location.href = '{{ path('tecnico_encargado_index') }}';
+            });
+        });
+    </script>
 {% endblock %}
