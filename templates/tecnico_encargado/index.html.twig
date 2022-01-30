@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TecnicoEncargado index{% endblock %}
+
+{% block body %}
+    <h1>TecnicoEncargado index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NombreTecnico</th>
+                <th>ApellidoTecnico</th>
+                <th>Dni</th>
+                <th>Direccion</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>Activo</th>
+                <th>Uuid</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tecnico_encargado in tecnico_encargados %}
+            <tr>
+                <td>{{ tecnico_encargado.id }}</td>
+                <td>{{ tecnico_encargado.nombreTecnico }}</td>
+                <td>{{ tecnico_encargado.apellidoTecnico }}</td>
+                <td>{{ tecnico_encargado.dni }}</td>
+                <td>{{ tecnico_encargado.direccion }}</td>
+                <td>{{ tecnico_encargado.createdAt ? tecnico_encargado.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ tecnico_encargado.updatedAt ? tecnico_encargado.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ tecnico_encargado.activo ? 'Yes' : 'No' }}</td>
+                <td>{{ tecnico_encargado.uuid }}</td>
+                <td>
+                    <a href="{{ path('tecnico_encargado_show', {'id': tecnico_encargado.id}) }}">show</a>
+                    <a href="{{ path('tecnico_encargado_edit', {'id': tecnico_encargado.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('tecnico_encargado_new') }}">Create new</a>
+{% endblock %}

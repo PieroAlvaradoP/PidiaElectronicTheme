@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TecnicoEncargado{% endblock %}
+
+{% block body %}
+    <h1>Create new TecnicoEncargado</h1>
+
+    {{ include('tecnico_encargado/_form.html.twig') }}
+
+    <a href="{{ path('tecnico_encargado_index') }}">back to list</a>
+{% endblock %}

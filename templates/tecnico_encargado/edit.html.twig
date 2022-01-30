@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TecnicoEncargado{% endblock %}
+
+{% block body %}
+    <h1>Edit TecnicoEncargado</h1>
+
+    {{ include('tecnico_encargado/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('tecnico_encargado_index') }}">back to list</a>
+
+    {{ include('tecnico_encargado/_delete_form.html.twig') }}
+{% endblock %}
