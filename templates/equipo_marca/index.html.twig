@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+{% import 'macro/pagination.html.twig' as pagination %}
+
+{#{% block title %}EquipoMarca index{% endblock %}#}
+{% set _title = 'Marca' %}
+{% set _main_title = 'Listado' %}
+{% set _section =  'equipo_marca_index' %}
+
+{% block _breadcrumb %}
+    {{ breadcrumb.show(_title) }}
+{% endblock %}
+
+{% block _main %}
+    <div class="table-responsive">
+        {{ action.tbl_start('table-sm') }}
+        {{ action.thead_start() }}
+        <tr>
+            {{ action.th('Marca', true) }}
+            {{ action.th('Detalle de la Marca', true) }}
+            <th></th>
+        </tr>
+        </tr>
+        {{ action.thead_end() }}
+        {{ action.tbody_start() }}
+        {% for marca in paginator.results %}
+        <tr>
+            <td>{{ marca.nombreMarca}}</td>
+            <td>{{ marca.etalleMarca }}</td>
+            <td><i class="{{ marca.icono }}"></i> {{ marca.icono }}</td>
+            <td class="text-center">{{ marca.activo | yesnocustom | raw }}</td>
+            <td>
+                {% if access.has('view') %}
+                    {{ action.btn_show_link2_ico(path('equipo_marca_show', {'id': marca.id})) }}
+                {% endif %}
+                {% if access.has('edit', marca) %}
+                    {{ action.btn_edit_link2_ico(path('equipo_marca_edit', {'id': marca.id})) }}
+                {% endif %}
+            </td>
+        {% else %}
+            <tr>
+                <td colspan="4">No hay registros</td>
+            </tr>
+        {% endfor %}
+        {{ action.tbody_end() }}
+        {{ action.tbl_end() }}
+        </tr>
+    </div>
+
+    {{ pagination.show(paginator, _section) }}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_index_links.html.twig' with {'route_base': 'equipo_marca'} %}
+{% endblock%}
+
+{% block _main_options %}
+    {% include 'crud/_index_filter.html.twig' %}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'equipo_marca'}  %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'equipo_marca'}  %}
+{% endblock %}
+
+{% block _stylesheets %}
+{% endblock %}
+
+{#{% block body %}#}
+{#    <h1>EquipoMarca index</h1>#}
+
+{#    <table class="table">#}
+{#        <thead>#}
+{#            <tr>#}
+{#                <th>Id</th>#}
+{#                <th>NommbreMarca</th>#}
+{#                <th>DetalleMarca</th>#}
+{#                <th>actions</th>#}
+{#            </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#        {% for equipo_marca in equipo_marcas %}#}
+{#            <tr>#}
+{#                <td>{{ equipo_marca.id }}</td>#}
+{#                <td>{{ equipo_marca.nommbreMarca }}</td>#}
+{#                <td>{{ equipo_marca.detalleMarca }}</td>#}
+{#                <td>#}
+{#                    <a href="{{ path('equipo_marca_show', {'id': equipo_marca.id}) }}">show</a>#}
+{#                    <a href="{{ path('equipo_marca_edit', {'id': equipo_marca.id}) }}">edit</a>#}
+{#                </td>#}
+{#            </tr>#}
+{#        {% else %}#}
+{#            <tr>#}
+{#                <td colspan="4">no records found</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+
+{#    <a href="{{ path('equipo_marca_new') }}">Create new</a>#}
+{#{% endblock %}#}
+
