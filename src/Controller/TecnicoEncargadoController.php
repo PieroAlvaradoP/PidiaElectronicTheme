@@ -65,7 +65,6 @@ class TecnicoEncargadoController extends BaseController
         TecnicoEncargado $tecnicoEncargado,
         TecnicoEncargadoManager $manager
         ): Response {
-
         $this->denyAccess(Access::LIST, 'tecnico_encargado_index');
         $form = $this->createForm(TecnicoEncargadoType::class, $tecnicoEncargado);
         $form->handleRequest($request);
@@ -85,8 +84,12 @@ class TecnicoEncargadoController extends BaseController
     }
 
     #[Route('/{id}', name: 'tecnico_encargado_delete', methods: ['POST'])]
-    public function delete(Request $request, TecnicoEncargado $tecnicoEncargado, TecnicoEncargadoManager $manager): Response
-    {
+    public function delete(
+        Request $request,
+        TecnicoEncargado $tecnicoEncargado,
+        TecnicoEncargadoManager $manager
+        ): Response {
+
         $this->denyAccess(Access::LIST, 'tecnico_encargado_index');
         if ($this->isCsrfTokenValid('delete'.$tecnicoEncargado->getId(), $request->request->get('_token'))) {
             $tecnicoEncargado->changeActivo();

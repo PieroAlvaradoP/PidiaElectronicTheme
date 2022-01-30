@@ -1,10 +1,9 @@
-
 {% import 'macro/action.html.twig' as action %}
 
 {{ action.frm_start(form) }}
 
     {{ action.frm_column(
-        action.frm_column_field(form.nombreMarca),
+        action.frm_column_field(form.nombreServicio),
         null,
         null,
         null,
@@ -12,7 +11,7 @@
     ) }}
 
     {{  action.frm_column(
-        action.frm_column_field(form.detalleMarca),
+        action.frm_column_field(form.detalleServicio),
         null,
         null,
         null,
