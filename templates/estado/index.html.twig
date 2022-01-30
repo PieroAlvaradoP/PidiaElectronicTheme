@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+{% import 'macro/pagination.html.twig' as pagination %}
+
+{% set _title = 'Estado' %}
+{% set _main_title = 'Listado' %}
+{% set _section =  'estado_index' %}
+
+{% block _breadcrumb %}
+    {{ breadcrumb.show(_title) }}
+{% endblock %}
+
+{% block _main %}
+    <div class="table-responsive">
+        {{ action.tbl_start('table-sm') }}
+        {{ action.thead_start() }}
+        <tr>
+            {{ action.th('Nombre Estado', true) }}
+            {{ action.th('Activo', true, 'text-center') }}
+            <th></th>
+        </tr>
+        </tr>
+        {{ action.thead_end() }}
+        {{ action.tbody_start() }}
+        {% for estado in paginator.results %}
+            <tr>
+            <td>{{ estado.nombreEstado}}</td>
+            <td class="text-center">{{ estado.activo | yesnocustom | raw }}</td>
+            <td>
+                {% if access.has('view') %}
+                    {{ action.btn_show_link2_ico(path('estado_show', {'id': estado.id})) }}
+                {% endif %}
+                {% if access.has('edit', estado) %}
+                    {{ action.btn_edit_link2_ico(path('estado_edit', {'id': estado.id})) }}
+                {% endif %}
+            </td>
+        {% else %}
+            <tr>
+                <td colspan="4">No hay registros</td>
+            </tr>
+        {% endfor %}
+        {{ action.tbody_end() }}
+        {{ action.tbl_end() }}
+        </tr>
+    </div>
+
+    {{ pagination.show(paginator, _section) }}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_index_links.html.twig' with {'route_base': 'estado'} %}
+{% endblock%}
+
+{% block _main_options %}
+    {% include 'crud/_index_filter.html.twig' %}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'estado'}  %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'estado'}  %}
+{% endblock %}
+
+{% block _stylesheets %}
+{% endblock %}
+
+{% block _javascripts %}
+    <script>
+        $(document).ready(function () {
+            $(document).on('change', '#filter_size', function () {
+                let route = '{{ path('estado_index') }}';
+                route = route + "?" + 'n=' + $('#filter_size option:selected').val();
+                route = route + "&" + 'b=' + $('#filter_text').val();
+                window.location = route;
+            });
+
+            $(document).on('click', '.btn-send', function () {
+                window.location = '{{ path('estado_index') }}';
+            });
+
+            $(document).on('click', '.btn-clean', function () {
+                window.location.href = '{{ path('estado_index') }}';
+            });
+        });
+    </script>
+{% endblock %}

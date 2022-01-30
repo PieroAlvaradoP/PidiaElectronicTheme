@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+
+
+{% set _title = 'Estado' %}
+{% set _main_title = 'Nuevo' %}
+{% set _section =  'equipo_marca_index'%}
+
+{% block _breadcrumb %}
+    {{ breadcrumb.show2(_title,_section,'Nuevo') }}
+{% endblock %}
+
+{% form_theme form _self %}
+
+{% block _config_menus_label -%}
+{% endblock %}
+
+{% block _config_menus_entry_widget -%}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_field_two_with_label(form.name,form.route, 'mb-0','form-control-sm') }}
+{%- endblock %}
+
+{% block _main %}
+    {{ include('estado/_form.html.twig') }}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_new_links_ico.html.twig' with {'route_base':'estado'} %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_new_links_tool.html.twig' with {'route_base': 'estado'}  %}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_new_links.html.twig' with {'route_base':'estado'} %}
+{% endblock %}
