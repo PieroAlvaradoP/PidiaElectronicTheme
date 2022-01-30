@@ -2,7 +2,6 @@
 
 namespace Pidia\Apps\Demo\Controller;
 
-use Pidia\Apps\Demo\Entity\Config;
 use Pidia\Apps\Demo\Entity\EquipoMarca;
 use Pidia\Apps\Demo\Form\EquipoMarcaType;
 use Pidia\Apps\Demo\Manager\EquipoMarcaManager;
@@ -80,9 +79,9 @@ class EquipoMarcaController extends BaseController
             return $this->redirectToRoute('config_index', ['id' => $equipoMarca->getId()]);
         }
 
-        return $this->renderForm('equipo_marca/edit.html.twig', [
+        return $this->render('equipo_marca/edit.html.twig', [
             'equipo_marca' => $equipoMarca,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

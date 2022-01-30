@@ -43,9 +43,9 @@ class TecnicoEncargadoController extends BaseController
             return $this->redirectToRoute('tecnico_encargado_index');
         }
 
-        return $this->renderForm('tecnico_encargado/new.html.twig', [
+        return $this->render('tecnico_encargado/new.html.twig', [
             'tecnico_encargado' => $tecnicoEncargado,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -77,9 +77,9 @@ class TecnicoEncargadoController extends BaseController
             }
         }
 
-        return $this->renderForm('tecnico_encargado/edit.html.twig', [
+        return $this->render('tecnico_encargado/edit.html.twig', [
             'tecnico_encargado' => $tecnicoEncargado,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

@@ -45,9 +45,9 @@ class TipoServicioController extends BaseController
             return $this->redirectToRoute('tipo_servicio_index');
         }
 
-        return $this->renderForm('tipo_servicio/new.html.twig', [
+        return $this->render('tipo_servicio/new.html.twig', [
             'tipo_servicio' => $tipoServicio,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -79,9 +79,9 @@ class TipoServicioController extends BaseController
             }
         }
 
-        return $this->renderForm('tipo_servicio/edit.html.twig', [
+        return $this->render('tipo_servicio/edit.html.twig', [
             'tipo_servicio' => $tipoServicio,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
