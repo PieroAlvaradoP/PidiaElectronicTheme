@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+{% import 'macro/pagination.html.twig' as pagination %}
+
+{% set _title = 'Configuración' %}
+{% set _main_title = 'Listado' %}
+{% set _section =  'cliente_index' %}
+
+{% block _breadcrumb %}
+    {{ breadcrumb.show(_title) }}
+{% endblock %}
+
+{% block _main %}
+    <div class="table-responsive">
+        {{ action.tbl_start() }}
+        {{ action.thead_start() }}
+        <tr>
+            {{ action.th('Nombre', true) }}
+            {{ action.th('Apellidos', true) }}
+            {{ action.th('RUC', true) }}
+            {{ action.th('Dirección', true) }}
+            {{ action.th('Telefono', true) }}
+            {{ action.th('Activo', true, 'text-center') }}
+            <th></th>
+        </tr>
+        {{ action.thead_end() }}
+        {{ action.tbody_start() }}
+        {% for clientes in paginator.results %}
+            <tr>
+                <td>{{ clientes.nombreCliente }}</td>
+                <td>{{ clientes.apellidosCliente }}
+                <td>{{ clientes.ruc }}</td>
+                <td>{{ clientes.direccionCliente }}</td>
+                <td>{{ clientes.telefono }}</td>
+                <td class="text-center">{{ clientes.activo | yesnocustom | raw }}</td>
+                <td>
+                    {% if access.has('view') %}
+                        {{ action.btn_show_link2_ico(path('cliente_show', {'id': clientes.id})) }}
+                    {% endif %}
+                    {% if access.has('edit', clientes) %}
+                        {{ action.btn_edit_link2_ico(path('cliente_edit', {'id': clientes.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">No hay registros</td>
+            </tr>
+        {% endfor %}
+        {{ action.tbody_end() }}
+        {{ action.tbl_end() }}
+    </div>
+
+    {{ pagination.show(paginator, _section) }}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_index_links.html.twig' with {'route_base': 'cliente'} %}
+{% endblock%}
+
+{% block _main_options %}
+    {% include 'crud/_index_filter.html.twig' %}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'cliente'}  %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'cliente'}  %}
+{% endblock %}
+
+{% block _stylesheets %}
+{% endblock %}
+
+{% block _javascripts %}
+    <script>
+        $(document).ready(function () {
+            $(document).on('change', '#filter_size', function () {
+                let route = '{{ path('cliente_index') }}';
+                route = route + "?" + 'n=' + $('#filter_size option:selected').val();
+                route = route + "&" + 'b=' + $('#filter_text').val();
+                window.location = route;
+            });
+
+            $(document).on('click', '.btn-send', function () {
+                window.location = '{{ path('cliente_index') }}';
+            });
+
+            $(document).on('click', '.btn-clean', function () {
+                window.location.href = '{{ path('cliente_index') }}';
+            });
+        });
+    </script>
+{% endblock %}
