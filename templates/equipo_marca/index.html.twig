@@ -19,6 +19,7 @@
         <tr>
             {{ action.th('Marca', true) }}
             {{ action.th('Detalle de la Marca', true) }}
+            {{ action.th('Activo', true, 'text-center') }}
             <th></th>
         </tr>
         </tr>
@@ -27,8 +28,8 @@
         {% for marca in paginator.results %}
         <tr>
             <td>{{ marca.nombreMarca}}</td>
-            <td>{{ marca.etalleMarca }}</td>
-            <td><i class="{{ marca.icono }}"></i> {{ marca.icono }}</td>
+            <td>{{ marca.detalleMarca }}</td>
+{#            <td><i class="{{ marca.icono }}"></i> {{ marca.icono }}</td>#}
             <td class="text-center">{{ marca.activo | yesnocustom | raw }}</td>
             <td>
                 {% if access.has('view') %}

@@ -1,13 +1,67 @@
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Edit EquipoMarca{% endblock %}#}
+
+{#{% block body %}#}
+{#    <h1>Edit EquipoMarca</h1>#}
+
+{#    {{ include('equipo_marca/_form.html.twig', {'button_label': 'Update'}) }}#}
+
+{#    <a href="{{ path('equipo_marca_index') }}">back to list</a>#}
+
+{#    {{ include('equipo_marca/_delete_form.html.twig') }}#}
+{#{% endblock %}#}
+
 {% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
 
-{% block title %}Edit EquipoMarca{% endblock %}
+{% set _title = 'Configuración' %}
+{% set _main_title = 'Editar' %}
+{% set _section =  'equipo_marca_index'%}
 
-{% block body %}
-    <h1>Edit EquipoMarca</h1>
+{% block _breadcrumb %}
+    {{ breadcrumb.show2(_title, _section, 'Editar') }}
+{% endblock %}
 
-    {{ include('equipo_marca/_form.html.twig', {'button_label': 'Update'}) }}
+{% form_theme form _self %}
 
-    <a href="{{ path('equipo_marca_index') }}">back to list</a>
+{% block _config_menus_label -%}
+{% endblock %}
 
-    {{ include('equipo_marca/_delete_form.html.twig') }}
+{% block _config_menus_entry_widget -%}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_field_two_with_label(form.name,form.route, 'mb-0','form-control-sm') }}
+{%- endblock %}
+
+{% block _main %}
+    {{ include('equipo_marca/_form.html.twig', {'button_label': 'Actualizar'}) }}
+{% endblock %}
+
+{% block _main_tools %}
+{% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_edit_links_ico.html.twig' with {'route_base':'config','entity': equipo_marca} %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_edit_links_tool.html.twig' with {'route_base':'config','entity': equipo_marca} %}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_edit_links.html.twig' with {'route_base':'config','entity': equipo_marca} %}
+{% endblock %}
+
+{% block _stylesheets %}
+{% endblock %}
+
+{% block _javascripts %}
+    <script src="{{ asset('js/select2.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            Select2();
+        });
+    </script>
 {% endblock %}

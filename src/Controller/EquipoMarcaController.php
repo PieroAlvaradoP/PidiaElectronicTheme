@@ -2,11 +2,10 @@
 
 namespace Pidia\Apps\Demo\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Pidia\Apps\Demo\Entity\Config;
 use Pidia\Apps\Demo\Entity\EquipoMarca;
 use Pidia\Apps\Demo\Form\EquipoMarcaType;
 use Pidia\Apps\Demo\Manager\EquipoMarcaManager;
-use Pidia\Apps\Demo\Repository\EquipoMarcaRepository;
 use Pidia\Apps\Demo\Security\Access;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,14 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/marca')]
 class EquipoMarcaController extends BaseController
 {
-//    #[Route('/', name: 'equipo_marca_index', methods: ['GET'])]
-//    public function index(EquipoMarcaRepository $equipoMarcaRepository): Response
-//    {
-//        return $this->render('equipo_marca/index.html.twig', [
-//            'equipo_marcas' => $equipoMarcaRepository->findAll(),
-//        ]);
-//    }
-
     #[Route('/', name: 'equipo_marca_index', defaults: ['page' => '1'], methods: ['GET'])]
     #[Route(path: '/page/{page<[1-9]\d*>}', name: 'menu_index_paginated', methods: ['GET'])]
     public function index(Request $request, int $page, EquipoMarcaManager $manager): Response
@@ -36,7 +27,7 @@ class EquipoMarcaController extends BaseController
     }
 
     #[Route('/new', name: 'equipo_marca_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EquipoMarcaManager $entityManager): Response
+    public function new(Request $request, EquipoMarcaManager $manager): Response
     {
         $this->denyAccess(Access::NEW, 'equipo_marca_index');
         $equipoMarca = new EquipoMarca();
@@ -44,14 +35,15 @@ class EquipoMarcaController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($entityManager->save($equipoMarca)) {
+            if ($manager->save($equipoMarca)) {
                 $this->addFlash('success', 'Registro creado!!!');
             } else {
-                $this->addErrors($entityManager->errors());
+                $this->addErrors($manager->errors());
             }
 
             return $this->redirectToRoute('equipo_marca_index');
         }
+
         return $this->render(
             'equipo_marca/new.html.twig',
             [
@@ -64,19 +56,22 @@ class EquipoMarcaController extends BaseController
     #[Route('/{id}', name: 'equipo_marca_show', methods: ['GET'])]
     public function show(EquipoMarca $equipoMarca): Response
     {
+        $this->denyAccess(Access::VIEW, 'config_index');
+
         return $this->render('equipo_marca/show.html.twig', [
             'equipo_marca' => $equipoMarca,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'equipo_marca_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, EquipoMarca $equipoMarca, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, EquipoMarca $equipoMarca, EquipoMarcaManager $manager): Response
     {
+        $this->denyAccess(Access::VIEW, 'config_index');
         $form = $this->createForm(EquipoMarcaType::class, $equipoMarca);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $manager->flush();
 
             return $this->redirectToRoute('equipo_marca_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -102,13 +97,28 @@ class EquipoMarcaController extends BaseController
     }
 
     #[Route('/{id}', name: 'equipo_marca_delete', methods: ['POST'])]
-    public function delete(Request $request, EquipoMarca $equipoMarca, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, EquipoMarca $equipoMarca, EquipoMarcaManager $manager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$equipoMarca->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($equipoMarca);
-            $entityManager->flush();
+            $manager->remove($equipoMarca);
+            $manager->flush();
         }
 
         return $this->redirectToRoute('equipo_marca_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route(path: '/{id}/delete', name: 'equipo_marca_delete_forever', methods: ['POST'])]
+    public function deleteForever(Request $request, EquipoMarca $equipoMarca, EquipoMarcaManager $manager): Response
+    {
+        $this->denyAccess(Access::MASTER, 'equipo_marca_index', $equipoMarca);
+        if ($this->isCsrfTokenValid('delete_forever'.$equipoMarca->getId(), $request->request->get('_token'))) {
+            if ($manager->remove($equipoMarca)) {
+                $this->addFlash('warning', 'Registro eliminado');
+            } else {
+                $this->addErrors($manager->errors());
+            }
+        }
+
+        return $this->redirectToRoute('config_index');
     }
 }
