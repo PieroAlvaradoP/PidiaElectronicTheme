@@ -71,9 +71,13 @@ class EquipoMarcaController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->flush();
+            if ($manager->save($equipoMarca)) {
+                $this->addFlash('success', 'Registro actualizado!!!');
+            } else {
+                $this->addErrors($manager->errors());
+            }
 
-            return $this->redirectToRoute('equipo_marca_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('config_index', ['id' => $equipoMarca->getId()]);
         }
 
         return $this->renderForm('equipo_marca/edit.html.twig', [
@@ -99,9 +103,16 @@ class EquipoMarcaController extends BaseController
     #[Route('/{id}', name: 'equipo_marca_delete', methods: ['POST'])]
     public function delete(Request $request, EquipoMarca $equipoMarca, EquipoMarcaManager $manager): Response
     {
+        $this->denyAccess(Access::DELETE, 'equipo_marca_index');
         if ($this->isCsrfTokenValid('delete'.$equipoMarca->getId(), $request->request->get('_token'))) {
-            $manager->remove($equipoMarca);
-            $manager->flush();
+//            $manager->remove($equipoMarca);
+//            $manager->flush();
+            $equipoMarca->changeActivo();
+            if ($manager->save($equipoMarca)) {
+                $this->addFlash('success', 'Estado ha sido actualizado');
+            } else {
+                $this->addErrors($manager->errors());
+            }
         }
 
         return $this->redirectToRoute('equipo_marca_index', [], Response::HTTP_SEE_OTHER);
