@@ -56,7 +56,7 @@ class EquipoMarcaController extends BaseController
     #[Route('/{id}', name: 'equipo_marca_show', methods: ['GET'])]
     public function show(EquipoMarca $equipoMarca): Response
     {
-        $this->denyAccess(Access::VIEW, 'config_index');
+        $this->denyAccess(Access::VIEW, 'equipo_marca_index');
 
         return $this->render('equipo_marca/show.html.twig', [
             'equipo_marca' => $equipoMarca,
@@ -66,7 +66,7 @@ class EquipoMarcaController extends BaseController
     #[Route('/{id}/edit', name: 'equipo_marca_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, EquipoMarca $equipoMarca, EquipoMarcaManager $manager): Response
     {
-        $this->denyAccess(Access::VIEW, 'config_index');
+        $this->denyAccess(Access::VIEW, 'equipo_marca_index');
         $form = $this->createForm(EquipoMarcaType::class, $equipoMarca);
         $form->handleRequest($request);
 
@@ -97,7 +97,7 @@ class EquipoMarcaController extends BaseController
 //            'activo' => 'Activo',
         ];
 
-        return $manager->exportOfQuery($request->query->all(), $headers, 'Reporte', 'config');
+        return $manager->exportOfQuery($request->query->all(), $headers, 'Reporte', 'equipo_marca');
     }
 
     #[Route('/{id}', name: 'equipo_marca_delete', methods: ['POST'])]
@@ -115,7 +115,7 @@ class EquipoMarcaController extends BaseController
             }
         }
 
-        return $this->redirectToRoute('equipo_marca_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('equipo_marca_index');
     }
 
     #[Route(path: '/{id}/delete', name: 'equipo_marca_delete_forever', methods: ['POST'])]
@@ -130,6 +130,6 @@ class EquipoMarcaController extends BaseController
             }
         }
 
-        return $this->redirectToRoute('config_index');
+        return $this->redirectToRoute('equipo_marca_index');
     }
 }

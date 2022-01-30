@@ -3,7 +3,6 @@
 {% import 'macro/action.html.twig' as action %}
 {% import 'macro/pagination.html.twig' as pagination %}
 
-{#{% block title %}EquipoMarca index{% endblock %}#}
 {% set _title = 'Marca' %}
 {% set _main_title = 'Listado' %}
 {% set _section =  'equipo_marca_index' %}
@@ -75,37 +74,23 @@
 {% block _stylesheets %}
 {% endblock %}
 
-{#{% block body %}#}
-{#    <h1>EquipoMarca index</h1>#}
+{% block _javascripts %}
+    <script>
+        $(document).ready(function () {
+            $(document).on('change', '#filter_size', function () {
+                let route = '{{ path('equipo_marca_index') }}';
+                route = route + "?" + 'n=' + $('#filter_size option:selected').val();
+                route = route + "&" + 'b=' + $('#filter_text').val();
+                window.location = route;
+            });
 
-{#    <table class="table">#}
-{#        <thead>#}
-{#            <tr>#}
-{#                <th>Id</th>#}
-{#                <th>NommbreMarca</th>#}
-{#                <th>DetalleMarca</th>#}
-{#                <th>actions</th>#}
-{#            </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#        {% for equipo_marca in equipo_marcas %}#}
-{#            <tr>#}
-{#                <td>{{ equipo_marca.id }}</td>#}
-{#                <td>{{ equipo_marca.nommbreMarca }}</td>#}
-{#                <td>{{ equipo_marca.detalleMarca }}</td>#}
-{#                <td>#}
-{#                    <a href="{{ path('equipo_marca_show', {'id': equipo_marca.id}) }}">show</a>#}
-{#                    <a href="{{ path('equipo_marca_edit', {'id': equipo_marca.id}) }}">edit</a>#}
-{#                </td>#}
-{#            </tr>#}
-{#        {% else %}#}
-{#            <tr>#}
-{#                <td colspan="4">no records found</td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{#        </tbody>#}
-{#    </table>#}
+            $(document).on('click', '.btn-send', function () {
+                window.location = '{{ path('equipo_marca_index') }}';
+            });
 
-{#    <a href="{{ path('equipo_marca_new') }}">Create new</a>#}
-{#{% endblock %}#}
-
+            $(document).on('click', '.btn-clean', function () {
+                window.location.href = '{{ path('equipo_marca_index') }}';
+            });
+        });
+    </script>
+{% endblock %}
