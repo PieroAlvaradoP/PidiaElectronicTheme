@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+
+{% set _title = 'Equipo' %}
+{% set _main_title = 'Mostrar' %}
+{% set _section =  'equipo_index'%}
+
+{% block _breadcrumb %}
+    {{ breadcrumb.show2(_title, _section, 'Mostrar') }}
+{% endblock %}
+
+{% block _main %}
+    {{ action.tbl_start() }}
+    {{ action.tbl_tr('Modelo',equipo.modelo) }}
+    {{ action.tbl_tr('Modelo',equipo.numeroSerie) }}
+    {{ action.tbl_tr('Modelo',equipo.nombreEquipo) }}
+    {{ action.tbl_tr('Modelo',equipo.marca) }}
+    {% include 'crud/_show_info.html.twig' with {'entity': equipo} %}
+    {{ action.tbl_end() }}
+
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_show_links.html.twig' with {'route_base':'equipo','entity': equipo} %}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_show_links_ico.html.twig' with {'route_base':'equipo','entity': equipo} %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_show_links_tool.html.twig' with {'route_base':'equipo','entity': equipo} %}
+{% endblock %}
+
