@@ -28,7 +28,7 @@ class EquipoController extends BaseController
     #[Route('/new', name: 'equipo_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EquipoManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'equipo_index');
+        $this->denyAccess(Access::NEW, 'equipo_index');
         $equipo = new Equipo();
         $form = $this->createForm(EquipoType::class, $equipo);
         $form->handleRequest($request);
@@ -52,7 +52,7 @@ class EquipoController extends BaseController
     #[Route('/{id}', name: 'equipo_show', methods: ['GET'])]
     public function show(Equipo $equipo): Response
     {
-        $this->denyAccess(Access::LIST, 'equipo_index');
+        $this->denyAccess(Access::VIEW, 'equipo_index');
 
         return $this->render('equipo/show.html.twig', [
             'equipo' => $equipo,
@@ -62,7 +62,7 @@ class EquipoController extends BaseController
     #[Route('/{id}/edit', name: 'equipo_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Equipo $equipo, EquipoManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'equipo_index');
+        $this->denyAccess(Access::EDIT, 'equipo_index');
         $form = $this->createForm(EquipoType::class, $equipo);
         $form->handleRequest($request);
 
@@ -85,7 +85,7 @@ class EquipoController extends BaseController
     #[Route('/{id}', name: 'equipo_delete', methods: ['POST'])]
     public function delete(Request $request, Equipo $equipo, EquipoManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'equipo_index');
+        $this->denyAccess(Access::DELETE, 'equipo_index');
         if ($this->isCsrfTokenValid('delete'.$equipo->getId(), $request->request->get('_token'))) {
             $equipo->changeActivo();
             if ($manager->save($equipo)) {

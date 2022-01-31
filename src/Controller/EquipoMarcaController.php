@@ -65,7 +65,7 @@ class EquipoMarcaController extends BaseController
     #[Route('/{id}/edit', name: 'equipo_marca_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, EquipoMarca $equipoMarca, EquipoMarcaManager $manager): Response
     {
-        $this->denyAccess(Access::VIEW, 'equipo_marca_index');
+        $this->denyAccess(Access::EDIT, 'equipo_marca_index');
         $form = $this->createForm(EquipoMarcaType::class, $equipoMarca);
         $form->handleRequest($request);
 

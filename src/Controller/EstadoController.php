@@ -29,7 +29,7 @@ class EstadoController extends BaseController
     #[Route('/new', name: 'estado_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EstadoManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'estado_index');
+        $this->denyAccess(Access::NEW, 'estado_index');
         $estado = new Estado();
         $form = $this->createForm(EstadoType::class, $estado);
         $form->handleRequest($request);
@@ -53,7 +53,7 @@ class EstadoController extends BaseController
     #[Route('/{id}', name: 'estado_show', methods: ['GET'])]
     public function show(Estado $estado): Response
     {
-        $this->denyAccess(Access::LIST, 'estado_index');
+        $this->denyAccess(Access::VIEW, 'estado_index');
 
         return $this->render('estado/show.html.twig', [
             'estado' => $estado,
@@ -63,7 +63,7 @@ class EstadoController extends BaseController
     #[Route('/{id}/edit', name: 'estado_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Estado $estado, EstadoManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'estado_index');
+        $this->denyAccess(Access::EDIT, 'estado_index');
         $form = $this->createForm(EstadoType::class, $estado);
         $form->handleRequest($request);
 
@@ -84,7 +84,7 @@ class EstadoController extends BaseController
     #[Route('/{id}', name: 'estado_delete', methods: ['POST'])]
     public function delete(Request $request, Estado $estado, EstadoManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'estado_index');
+        $this->denyAccess(Access::DELETE, 'estado_index');
         if ($this->isCsrfTokenValid('delete'.$estado->getId(), $request->request->get('_token'))) {
             $estado->changeActivo();
             if ($manager->save($estado)) {
@@ -100,7 +100,7 @@ class EstadoController extends BaseController
     #[Route(path: '/export', name: 'estado_export', methods: ['GET'])]
     public function export(Request $request, EstadoManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'estado_index');
+        $this->denyAccess(Access::EXPORT, 'estado_index');
         $headers = [
             'nombreEstado' => 'Estado',
         ];

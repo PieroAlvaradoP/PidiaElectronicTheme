@@ -19,8 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/admin/parametro')]
 class ParametroController extends BaseController
 {
-    #[Route(path: '/', defaults: ['page' => '1'], methods: ['GET'], name: 'parametro_index')]
-    #[Route(path: '/page/{page<[1-9]\d*>}', methods: ['GET'], name: 'parametro_index_paginated')]
+    #[Route(path: '/', name: 'parametro_index', defaults: ['page' => '1'], methods: ['GET'])]
+    #[Route(path: '/page/{page<[1-9]\d*>}', name: 'parametro_index_paginated', methods: ['GET'])]
     public function index(Request $request, int $page, ParametroManager $manager): Response
     {
         $this->denyAccess(Access::LIST, 'parametro_index');

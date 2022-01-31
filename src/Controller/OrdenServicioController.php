@@ -28,7 +28,7 @@ class OrdenServicioController extends BaseController
     #[Route('/new', name: 'orden_servicio_new', methods: ['GET', 'POST'])]
     public function new(Request $request, OrdenServicioManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'orden_servicio_index');
+        $this->denyAccess(Access::NEW, 'orden_servicio_index');
         $ordenServicio = new OrdenServicio();
         $form = $this->createForm(OrdenServicioType::class, $ordenServicio);
         $form->handleRequest($request);
@@ -52,7 +52,7 @@ class OrdenServicioController extends BaseController
     #[Route('/{id}', name: 'orden_servicio_show', methods: ['GET'])]
     public function show(OrdenServicio $ordenServicio): Response
     {
-        $this->denyAccess(Access::LIST, 'orden_servicio_index');
+        $this->denyAccess(Access::VIEW, 'orden_servicio_index');
         return $this->render('orden_servicio/show.html.twig', [
             'orden_servicio' => $ordenServicio,
         ]);
@@ -61,7 +61,7 @@ class OrdenServicioController extends BaseController
     #[Route('/{id}/edit', name: 'orden_servicio_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, OrdenServicio $ordenServicio, OrdenServicioManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'orden_servicio_index');
+        $this->denyAccess(Access::EDIT, 'orden_servicio_index');
         $form = $this->createForm(OrdenServicioType::class, $ordenServicio);
         $form->handleRequest($request);
 
@@ -84,7 +84,7 @@ class OrdenServicioController extends BaseController
     #[Route('/{id}', name: 'orden_servicio_delete', methods: ['POST'])]
     public function delete(Request $request, OrdenServicio $ordenServicio, OrdenServicioManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'orden_servicio_index');
+        $this->denyAccess(Access::DELETE, 'orden_servicio_index');
         if ($this->isCsrfTokenValid('delete'.$ordenServicio->getId(), $request->request->get('_token'))) {
             $ordenServicio->changeActivo();
             if ($manager->save($ordenServicio)) {

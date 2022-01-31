@@ -28,7 +28,7 @@ class TecnicoEncargadoController extends BaseController
     #[Route('/new', name: 'tecnico_encargado_new', methods: ['GET', 'POST'])]
     public function new(Request $request, TecnicoEncargadoManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'tecnico_encargado_index');
+        $this->denyAccess(Access::NEW, 'tecnico_encargado_index');
         $tecnicoEncargado = new TecnicoEncargado();
         $form = $this->createForm(TecnicoEncargadoType::class, $tecnicoEncargado);
         $form->handleRequest($request);
@@ -52,7 +52,7 @@ class TecnicoEncargadoController extends BaseController
     #[Route('/{id}', name: 'tecnico_encargado_show', methods: ['GET'])]
     public function show(TecnicoEncargado $tecnicoEncargado): Response
     {
-        $this->denyAccess(Access::LIST, 'tecnico_encargado_index');
+        $this->denyAccess(Access::VIEW, 'tecnico_encargado_index');
 
         return $this->render('tecnico_encargado/show.html.twig', [
             'tecnico_encargado' => $tecnicoEncargado,
@@ -65,7 +65,7 @@ class TecnicoEncargadoController extends BaseController
         TecnicoEncargado $tecnicoEncargado,
         TecnicoEncargadoManager $manager
         ): Response {
-        $this->denyAccess(Access::LIST, 'tecnico_encargado_index');
+        $this->denyAccess(Access::VIEW, 'tecnico_encargado_index');
         $form = $this->createForm(TecnicoEncargadoType::class, $tecnicoEncargado);
         $form->handleRequest($request);
 
@@ -90,7 +90,7 @@ class TecnicoEncargadoController extends BaseController
         TecnicoEncargadoManager $manager
         ): Response {
 
-        $this->denyAccess(Access::LIST, 'tecnico_encargado_index');
+        $this->denyAccess(Access::DELETE, 'tecnico_encargado_index');
         if ($this->isCsrfTokenValid('delete'.$tecnicoEncargado->getId(), $request->request->get('_token'))) {
             $tecnicoEncargado->changeActivo();
             if ($manager->save($tecnicoEncargado)) {

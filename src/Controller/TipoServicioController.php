@@ -29,7 +29,7 @@ class TipoServicioController extends BaseController
     #[Route('/new', name: 'tipo_servicio_new', methods: ['GET', 'POST'])]
     public function new(Request $request, TipoServicioManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'tipo_servicio_index');
+        $this->denyAccess(Access::NEW, 'tipo_servicio_index');
         $tipoServicio = new TipoServicio();
         $form = $this->createForm(TipoServicioType::class, $tipoServicio);
         $form->handleRequest($request);
@@ -53,7 +53,7 @@ class TipoServicioController extends BaseController
     #[Route('/{id}', name: 'tipo_servicio_show', methods: ['GET'])]
     public function show(TipoServicio $tipoServicio): Response
     {
-        $this->denyAccess(Access::LIST, 'tipo_servicio_index');
+        $this->denyAccess(Access::VIEW, 'tipo_servicio_index');
 
         return $this->render('tipo_servicio/show.html.twig', [
             'tipo_servicio' => $tipoServicio,
@@ -66,7 +66,7 @@ class TipoServicioController extends BaseController
         TipoServicio $tipoServicio,
         TipoServicioManager $manager
     ): Response {
-        $this->denyAccess(Access::LIST, 'tipo_servicio_index');
+        $this->denyAccess(Access::EDIT, 'tipo_servicio_index');
         $form = $this->createForm(TipoServicioType::class, $tipoServicio);
         $form->handleRequest($request);
 
@@ -87,7 +87,7 @@ class TipoServicioController extends BaseController
     #[Route('/{id}', name: 'tipo_servicio_delete', methods: ['POST'])]
     public function delete(Request $request, TipoServicio $tipoServicio, TipoServicioManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'tipo_servicio_index');
+        $this->denyAccess(Access::DELETE, 'tipo_servicio_index');
         if ($this->isCsrfTokenValid('delete'.$tipoServicio->getId(), $request->request->get('_token'))) {
             $tipoServicio->changeActivo();
             if ($manager->save($tipoServicio)) {
