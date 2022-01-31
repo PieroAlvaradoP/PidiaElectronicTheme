@@ -76,7 +76,7 @@ class EquipoMarcaController extends BaseController
                 $this->addErrors($manager->errors());
             }
 
-            return $this->redirectToRoute('config_index', ['id' => $equipoMarca->getId()]);
+            return $this->redirectToRoute('equipo_marca_index', ['id' => $equipoMarca->getId()]);
         }
 
         return $this->render('equipo_marca/edit.html.twig', [
@@ -104,8 +104,6 @@ class EquipoMarcaController extends BaseController
     {
         $this->denyAccess(Access::DELETE, 'equipo_marca_index');
         if ($this->isCsrfTokenValid('delete'.$equipoMarca->getId(), $request->request->get('_token'))) {
-//            $manager->remove($equipoMarca);
-//            $manager->flush();
             $equipoMarca->changeActivo();
             if ($manager->save($equipoMarca)) {
                 $this->addFlash('success', 'Estado ha sido actualizado');
