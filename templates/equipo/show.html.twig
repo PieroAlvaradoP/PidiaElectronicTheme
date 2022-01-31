@@ -13,9 +13,9 @@
 {% block _main %}
     {{ action.tbl_start() }}
     {{ action.tbl_tr('Modelo',equipo.modelo) }}
-    {{ action.tbl_tr('Modelo',equipo.numeroSerie) }}
-    {{ action.tbl_tr('Modelo',equipo.nombreEquipo) }}
-    {{ action.tbl_tr('Modelo',equipo.marca) }}
+    {{ action.tbl_tr('Numero de Serie',equipo.numeroSerie) }}
+    {{ action.tbl_tr('Nombre del equipo',equipo.nombreEquipo) }}
+    {{ action.tbl_tr('Marca',equipo.marca) }}
     {% include 'crud/_show_info.html.twig' with {'entity': equipo} %}
     {{ action.tbl_end() }}
 

@@ -67,7 +67,7 @@ final class UsuarioController extends BaseController
             unset($item);
         }
 
-        return $manager->export($data, $headers, 'Reporte', 'usuario');
+        return $manager->export($data, $headers, 'Reporte');
     }
 
     #[Route(path: '/new', name: 'usuario_new', methods: 'GET|POST')]

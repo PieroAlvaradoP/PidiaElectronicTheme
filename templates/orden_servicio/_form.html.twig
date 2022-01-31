@@ -1,0 +1,57 @@
+{% import 'macro/action.html.twig' as action %}
+
+{{ action.frm_start(form) }}
+    {{ action.frm_column(
+        action.frm_column_field_select(form.numeroOrden),
+        action.frm_column_field_select(form.precio),
+        null,
+        null,
+        2
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field(form.clienteOrden, '', '', 2),
+        null,
+        null,
+        null,
+        1
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field(form.tecnicoOrden, '', '', 2),
+        null,
+        null,
+        null,
+        1
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field(form.fechaIngreso),
+        action.frm_column_field(form.fechaSalida)
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field_select(form.equipo),
+        null,
+        null,
+        null,
+        2
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field_select(form.estadoOrden),
+        null,
+        null,
+        null,
+        2
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_btn(button_label|default('Guardar')),
+        null,
+        null,
+        null,
+        2
+    ) }}
+
+{{ action.frm_end(form) }}

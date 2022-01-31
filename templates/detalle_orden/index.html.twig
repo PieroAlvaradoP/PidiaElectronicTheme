@@ -3,9 +3,9 @@
 {% import 'macro/action.html.twig' as action %}
 {% import 'macro/pagination.html.twig' as pagination %}
 
-{% set _title = 'Cliente' %}
+{% set _title = 'Detalle' %}
 {% set _main_title = 'Listado' %}
-{% set _section =  'cliente_index' %}
+{% set _section =  'detalle_orden_index' %}
 
 {% block _breadcrumb %}
     {{ breadcrumb.show(_title) }}
@@ -13,36 +13,34 @@
 
 {% block _main %}
     <div class="table-responsive">
-        {{ action.tbl_start() }}
+        {{ action.tbl_start('table-sm') }}
         {{ action.thead_start() }}
         <tr>
-            {{ action.th('Nombre', true) }}
-            {{ action.th('Apellidos', true) }}
-            {{ action.th('RUC', true) }}
-            {{ action.th('Dirección', true) }}
-            {{ action.th('Telefono', true) }}
+            {{ action.th('Orden de Servicio', true) }}
+            {{ action.th('Tipo de Servicio', true) }}
+            {{ action.th('Observación', true) }}
+            {{ action.th('Precio', true) }}
             {{ action.th('Activo', true, 'text-center') }}
             <th></th>
         </tr>
+        </tr>
         {{ action.thead_end() }}
         {{ action.tbody_start() }}
-        {% for clientes in paginator.results %}
+        {% for detalle in paginator.results %}
             <tr>
-                <td>{{ clientes.nombreCliente }}</td>
-                <td>{{ clientes.apellidosCliente }}
-                <td>{{ clientes.ruc }}</td>
-                <td>{{ clientes.direccionCliente }}</td>
-                <td>{{ clientes.telefono }}</td>
-                <td class="text-center">{{ clientes.activo | yesnocustom | raw }}</td>
-                <td>
-                    {% if access.has('view') %}
-                        {{ action.btn_show_link2_ico(path('cliente_show', {'id': clientes.id})) }}
-                    {% endif %}
-                    {% if access.has('edit', clientes) %}
-                        {{ action.btn_edit_link2_ico(path('cliente_edit', {'id': clientes.id})) }}
-                    {% endif %}
-                </td>
-            </tr>
+            <td>{{ detalle.ordenServicio }}</td>
+            <td>{{ detalle.tipoServicioDetalleOrden }}</td>
+            <td>{{ detalle.observacion }}</td>
+            <td>{{ detalle.precio }}</td>
+            <td class="text-center">{{ detalle.activo | yesnocustom | raw }}</td>
+            <td>
+                {% if access.has('view') %}
+                    {{ action.btn_show_link2_ico(path('equipo_show', {'id': detalle.id})) }}
+                {% endif %}
+                {% if access.has('edit', detalle) %}
+                    {{ action.btn_edit_link2_ico(path('equipo_edit', {'id': detalle.id})) }}
+                {% endif %}
+            </td>
         {% else %}
             <tr>
                 <td colspan="4">No hay registros</td>
@@ -50,13 +48,14 @@
         {% endfor %}
         {{ action.tbody_end() }}
         {{ action.tbl_end() }}
+        </tr>
     </div>
 
     {{ pagination.show(paginator, _section) }}
 {% endblock %}
 
 {% block _main_footer %}
-    {% include 'crud/_index_links.html.twig' with {'route_base': 'cliente'} %}
+    {% include 'crud/_index_links.html.twig' with {'route_base': 'detalle_orden'} %}
 {% endblock%}
 
 {% block _main_options %}
@@ -68,11 +67,11 @@
 {% endblock %}
 
 {% block _body_tools_ico %}
-    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'cliente'}  %}
+    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'detalle_orden'}  %}
 {% endblock %}
 
 {% block _body_tools %}
-    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'cliente'}  %}
+    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'detalle_orden'}  %}
 {% endblock %}
 
 {% block _stylesheets %}
@@ -82,18 +81,18 @@
     <script>
         $(document).ready(function () {
             $(document).on('change', '#filter_size', function () {
-                let route = '{{ path('cliente_index') }}';
+                let route = '{{ path('equipo_index') }}';
                 route = route + "?" + 'n=' + $('#filter_size option:selected').val();
                 route = route + "&" + 'b=' + $('#filter_text').val();
                 window.location = route;
             });
 
             $(document).on('click', '.btn-send', function () {
-                window.location = '{{ path('cliente_index') }}';
+                window.location = '{{ path('equipo_index') }}';
             });
 
             $(document).on('click', '.btn-clean', function () {
-                window.location.href = '{{ path('cliente_index') }}';
+                window.location.href = '{{ path('equipo_index') }}';
             });
         });
     </script>

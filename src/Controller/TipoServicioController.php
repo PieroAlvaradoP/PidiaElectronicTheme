@@ -5,7 +5,6 @@ namespace Pidia\Apps\Demo\Controller;
 use Pidia\Apps\Demo\Entity\TipoServicio;
 use Pidia\Apps\Demo\Form\TipoServicioType;
 use Pidia\Apps\Demo\Manager\TipoServicioManager;
-use Pidia\Apps\Demo\Repository\TipoServicioRepository;
 use Pidia\Apps\Demo\Security\Access;
 use Pidia\Apps\Demo\Util\Paginator;
 use Symfony\Component\HttpFoundation\Request;
@@ -108,11 +107,7 @@ class TipoServicioController extends BaseController
         $headers = [
             'nombreServicio' => 'Nombre',
             'detalleServicio' => 'Detalle',
-//            'dni' => 'DNI',
-//            'direccion' => 'direccion',
-//            'activo' => 'Activo',
         ];
-
         $params = Paginator::params($request->query->all());
         $objetos = $manager->repositorio()->filter($params, false);
         $data = [];
@@ -121,14 +116,36 @@ class TipoServicioController extends BaseController
             $item = [];
             $item['nombreServicio'] = $objeto->getNombreServicio();
             $item['detalleServicio'] = $objeto->getDetalleServicio();
-//            $item['activo'] = $objeto->activo();
             $data[] = $item;
-            unset($item);
         }
 
-        return $manager->export($data, $headers, 'Tipo_servicio', 'tipo_servicio');
-//        return $manager->exportOfQuery($request->query->all(), $headers, 'Reporte', 'usuario');
+        return $manager->export($data, $headers, 'Reporte Tipo de Servicio', 'TipoServicio');
     }
+
+//    #[Route(path: '/export', name: 'tipo_servicio_export', methods: ['GET'])]
+//    public function export(Request $request, TipoServicioManager $manager): Response
+//    {
+//        $this->denyAccess(Access::EXPORT, 'tipo_servicio_index');
+//        $headers = [
+//            'nombreServicio' => 'Nombre',
+//            'detalleServicio' => 'Detalle',
+//        ];
+//
+//        $params = Paginator::params($request->query->all());
+//        $objetos = $manager->repositorio()->filter($params, false);
+//        $data = [];
+//        /** @var TipoServicio $objeto */
+//        foreach ($objetos as $objeto) {
+//            $item = [];
+//            $item['nombreServicio'] = $objeto->getNombreServicio();
+//            $item['detalleServicio'] = $objeto->getDetalleServicio();
+//            $data[] = $item;
+    ////            unset($item);
+//        }
+//
+//        return $manager->export($data, $headers, 'Tipo_servicio', 'TipoServicio');
+    ////        return $manager->exportOfQuery($request->query->all(), $headers, 'Reporte', 'usuario');
+//    }
 
     #[Route(path: '/{id}/delete', name: 'tipo_servicio_delete_forever', methods: ['POST'])]
     public function deleteForever(Request $request,

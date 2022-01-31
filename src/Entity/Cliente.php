@@ -102,4 +102,9 @@ class Cliente
     {
         return $this->getNombreCliente().' '.$this->getApellidosCliente();
     }
+
+    public function rucAndNombreApellidos(): string
+    {
+        return $this->getRuc().' - '.$this->getNombreCliente().' '.$this->getApellidosCliente();
+    }
 }
