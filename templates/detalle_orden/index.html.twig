@@ -3,7 +3,7 @@
 {% import 'macro/action.html.twig' as action %}
 {% import 'macro/pagination.html.twig' as pagination %}
 
-{% set _title = 'Detalle' %}
+{% set _title = 'Detalle Orden' %}
 {% set _main_title = 'Listado' %}
 {% set _section =  'detalle_orden_index' %}
 
@@ -16,10 +16,10 @@
         {{ action.tbl_start('table-sm') }}
         {{ action.thead_start() }}
         <tr>
-            {{ action.th('Orden de Servicio', true) }}
+            {{ action.th('Orden Detalle', true) }}
             {{ action.th('Tipo de Servicio', true) }}
-            {{ action.th('Observación', true) }}
             {{ action.th('Precio', true) }}
+            {{ action.th('Observacion', true) }}
             {{ action.th('Activo', true, 'text-center') }}
             <th></th>
         </tr>
@@ -28,17 +28,17 @@
         {{ action.tbody_start() }}
         {% for detalle in paginator.results %}
             <tr>
-            <td>{{ detalle.ordenServicio }}</td>
-            <td>{{ detalle.tipoServicioDetalleOrden }}</td>
-            <td>{{ detalle.observacion }}</td>
-            <td>{{ detalle.precio }}</td>
+            <td>{{ detalle.modelo}}</td>
+            <td>{{ detalle.numeroSerie }}</td>
+            <td>{{ detalle.nombreEquipo }}</td>
+            <td>{{ detalle.marca }}</td>
             <td class="text-center">{{ detalle.activo | yesnocustom | raw }}</td>
             <td>
                 {% if access.has('view') %}
-                    {{ action.btn_show_link2_ico(path('equipo_show', {'id': detalle.id})) }}
+                    {{ action.btn_show_link2_ico(path('detalle_orden_show', {'id': detalle.id})) }}
                 {% endif %}
                 {% if access.has('edit', detalle) %}
-                    {{ action.btn_edit_link2_ico(path('equipo_edit', {'id': detalle.id})) }}
+                    {{ action.btn_edit_link2_ico(path('detalle_orden_edit', {'id': detalle.id})) }}
                 {% endif %}
             </td>
         {% else %}
@@ -88,11 +88,11 @@
             });
 
             $(document).on('click', '.btn-send', function () {
-                window.location = '{{ path('equipo_index') }}';
+                window.location = '{{ path('detalle_orden_index') }}';
             });
 
             $(document).on('click', '.btn-clean', function () {
-                window.location.href = '{{ path('equipo_index') }}';
+                window.location.href = '{{ path('detalle_orden_index') }}';
             });
         });
     </script>

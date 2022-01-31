@@ -2,15 +2,15 @@
 
 {{ action.frm_start(form) }}
     {{ action.frm_column(
-        action.frm_column_field_select(form.numeroOrden),
-        action.frm_column_field_select(form.precio),
+        action.frm_column_field(form.numeroOrden),
+        action.frm_column_field(form.precio),
         null,
         null,
         2
     ) }}
 
     {{ action.frm_column(
-        action.frm_column_field(form.clienteOrden, '', '', 2),
+        action.frm_column_field_select(form.clienteOrden, '', '', 2),
         null,
         null,
         null,
@@ -18,7 +18,7 @@
     ) }}
 
     {{ action.frm_column(
-        action.frm_column_field(form.tecnicoOrden, '', '', 2),
+        action.frm_column_field_select(form.tecnicoOrden, '', '', 2),
         null,
         null,
         null,

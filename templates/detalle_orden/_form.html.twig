@@ -2,16 +2,16 @@
 
 {{ action.frm_start(form) }}
 
-    {{ action.frm_column(
-        action.frm_column_field(form.ordenServicio, '', '', 2),
-        null,
-        null,
-        null,
-        1
-    ) }}
+{#    {{ action.frm_column(#}
+{#        action.frm_column_field(form.ordenServicio, '', '', 2),#}
+{#        null,#}
+{#        null,#}
+{#        null,#}
+{#        1#}
+{#    ) }}#}
 
     {{ action.frm_column(
-        action.frm_column_field(form.tipoServicioDetalleOrden),
+        action.frm_column_field_select(form.tipoServicioDetalleOrden),
         action.frm_column_field(form.precio)
     ) }}
 

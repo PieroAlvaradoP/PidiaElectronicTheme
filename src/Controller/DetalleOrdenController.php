@@ -30,7 +30,7 @@ class DetalleOrdenController extends BaseController
     #[Route('/new', name: 'detalle_orden_new', methods: ['GET', 'POST'])]
     public function new(Request $request, DetalleOrdenManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'detalle_orden_index');
+        $this->denyAccess(Access::NEW, 'detalle_orden_index');
         $detalleOrden = new DetalleOrden();
         $form = $this->createForm(DetalleOrdenType::class, $detalleOrden);
         $form->handleRequest($request);
@@ -52,7 +52,7 @@ class DetalleOrdenController extends BaseController
     #[Route('/{id}', name: 'detalle_orden_show', methods: ['GET'])]
     public function show(DetalleOrden $detalleOrden): Response
     {
-        $this->denyAccess(Access::LIST, 'detalle_orden_index');
+        $this->denyAccess(Access::VIEW, 'detalle_orden_index');
 
         return $this->render('detalle_orden/show.html.twig', [
             'detalle_orden' => $detalleOrden,
@@ -62,7 +62,7 @@ class DetalleOrdenController extends BaseController
     #[Route('/{id}/edit', name: 'detalle_orden_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, DetalleOrden $detalleOrden, DetalleOrdenManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'detalle_orden_index');
+        $this->denyAccess(Access::EDIT, 'detalle_orden_index');
         $form = $this->createForm(DetalleOrdenType::class, $detalleOrden);
         $form->handleRequest($request);
 
@@ -84,7 +84,7 @@ class DetalleOrdenController extends BaseController
     #[Route('/{id}', name: 'detalle_orden_delete', methods: ['POST'])]
     public function delete(Request $request, DetalleOrden $detalleOrden, DetalleOrdenManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'detalle_orden_index');
+        $this->denyAccess(Access::DELETE, 'detalle_orden_index');
         if ($this->isCsrfTokenValid('delete'.$detalleOrden->getId(), $request->request->get('_token'))) {
             $detalleOrden->changeActivo();
             if ($manager->save($detalleOrden)) {

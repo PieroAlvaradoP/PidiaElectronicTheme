@@ -4,7 +4,6 @@ namespace Pidia\Apps\Demo\Form;
 
 use Pidia\Apps\Demo\Entity\Cliente;
 use Pidia\Apps\Demo\Entity\Equipo;
-use Pidia\Apps\Demo\Entity\Estado;
 use Pidia\Apps\Demo\Entity\OrdenServicio;
 use Pidia\Apps\Demo\Entity\TecnicoEncargado;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -27,13 +26,8 @@ class OrdenServicioType extends AbstractType
                 'widget' => 'single_text',
                 'required' => false,
             ])
-            ->add('precio')
             ->add('clienteOrden', EntityType::class, [
                 'class' => Cliente::class,
-                'placeholder' => 'Seleccione ...',
-            ])
-            ->add('tecnicoOrden', EntityType::class, [
-                'class' => TecnicoEncargado::class,
                 'placeholder' => 'Seleccione ...',
             ])
             ->add('equipo', EntityType::class, [
@@ -41,7 +35,12 @@ class OrdenServicioType extends AbstractType
                 'placeholder' => 'Seleccione ...',
             ])
             ->add('estadoOrden')
-            ->add('detalles', CollectionType::class, [
+            ->add('tecnicoOrden', EntityType::class, [
+                'class' => TecnicoEncargado::class,
+                'placeholder' => 'Seleccione ...',
+            ])
+            ->add('precio')
+            ->add('detalleOrdens', CollectionType::class, [
                 'entry_type' => DetalleOrdenType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,

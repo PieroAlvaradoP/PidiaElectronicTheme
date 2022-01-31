@@ -108,10 +108,10 @@ class TecnicoEncargadoController extends BaseController
     {
         $this->denyAccess(Access::EXPORT, 'tecnico_encargado_index');
         $headers = [
-//            'nombreTecnico' => 'Nombre',
-//            'apellidosTecnico' => 'Apellidos',
-//            'dni' => 'DNI',
-//            'direccion' => 'direccion',
+            'nombreTecnico' => 'Nombre',
+            'apellidoTecnico' => 'Apellidos',
+            'dni' => 'DNI',
+            'direccion' => 'direccion',
 //            'activo' => 'Activo',
         ];
 

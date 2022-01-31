@@ -15,13 +15,13 @@ class DetalleOrdenType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('ordenServicio')
-            ->add('precio')
+//            ->add('ordenServicio')
             ->add('tipoServicioDetalleOrden', EntityType::class, [
                 'class' => TipoServicio::class,
                 'placeholder' => 'Seleccione ...',
                 'label' => 'Tipo de Servicio',
             ])
+            ->add('precio')
             ->add('observacion', TextareaType::class, [
                 'required' => false,
                 'label' => 'Observación',

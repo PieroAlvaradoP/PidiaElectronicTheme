@@ -29,7 +29,7 @@ class ClienteController extends BaseController
     #[Route('/new', name: 'cliente_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ClienteManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'cliente_index');
+        $this->denyAccess(Access::NEW, 'cliente_index');
         $cliente = new Cliente();
         $form = $this->createForm(ClienteType::class, $cliente);
         $form->handleRequest($request);
@@ -53,17 +53,16 @@ class ClienteController extends BaseController
     #[Route('/{id}', name: 'cliente_show', methods: ['GET'])]
     public function show(Cliente $cliente): Response
     {
-        $this->denyAccess(Access::LIST, 'cliente_index');
+        $this->denyAccess(Access::VIEW, 'cliente_index');
 
         return $this->render('cliente/show.html.twig', [
-            'cliente' => $cliente,
-        ]);
+            'cliente' => $cliente, ]);
     }
 
     #[Route('/{id}/edit', name: 'cliente_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Cliente $cliente, ClienteManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'cliente_index');
+        $this->denyAccess(Access::EDIT, 'cliente_index');
         $form = $this->createForm(ClienteType::class, $cliente);
         $form->handleRequest($request);
 
@@ -74,7 +73,7 @@ class ClienteController extends BaseController
                 $this->addErrors($manager->errors());
             }
 
-            return $this->redirectToRoute('config_menu_index', ['id' => $cliente->getId()]);
+            return $this->redirectToRoute('cliente_index', ['id' => $cliente->getId()]);
         }
 
         return $this->render('cliente/edit.html.twig', [
@@ -86,7 +85,7 @@ class ClienteController extends BaseController
     #[Route('/{id}', name: 'cliente_delete', methods: ['POST'])]
     public function delete(Request $request, Cliente $cliente, ClienteManager $manager): Response
     {
-        $this->denyAccess(Access::LIST, 'cliente_index');
+        $this->denyAccess(Access::DELETE, 'cliente_index');
         if ($this->isCsrfTokenValid('delete'.$cliente->getId(), $request->request->get('_token'))) {
             $cliente->changeActivo();
             if ($manager->save($cliente)) {
@@ -138,21 +137,23 @@ class ClienteController extends BaseController
             'direccionCliente' => 'Direccion',
             'telefono' => 'telefono',
         ];
-        $params = Paginator::params($request->query->all());
-        $objetos = $manager->repositorio()->filter($params, false);
-        $data = [];
-        /** @var Cliente $objeto */
-        foreach ($objetos as $objeto) {
-            $item = [];
-            $item['nombreCliente'] = $objeto->getNombreCliente();
-            $item['apellidosCliente'] = $objeto->getApellidosCliente();
-            $item['ruc'] = $objeto->getRuc();
-            $item['direccionCliente'] = $objeto->getDireccionCliente();
-            $item['telefono'] = $objeto->getDireccionCliente();
-            $data[] = $item;
-        }
+//        $params = Paginator::params($request->query->all());
+//        $objetos = $manager->repositorio()->filter($params, false);
+//        $data = [];
+//        /** @var Cliente $objeto */
+//        foreach ($objetos as $objeto) {
+//            $item = [];
+//            $item['nombreCliente'] = $objeto->getNombreCliente();
+//            $item['apellidosCliente'] = $objeto->getApellidosCliente();
+//            $item['ruc'] = $objeto->getRuc();
+//            $item['direccionCliente'] = $objeto->getDireccionCliente();
+//            $item['telefono'] = $objeto->getTelefono();
+//            $data[] = $item;
+////            unset($item);
+//        }
 
-        return $manager->export($data, $headers, 'Reporte_Clientes', 'Cliente');
+//        return $manager->export($data, $headers, 'Reporte');
+        return $manager->exportOfQuery($request->query->all(), $headers, 'Reporte');
     }
 
     #[Route(path: '/{id}/delete', name: 'cliente_delete_forever', methods: ['POST'])]
