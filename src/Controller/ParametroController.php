@@ -34,7 +34,7 @@ class ParametroController extends BaseController
         );
     }
 
-    #[Route(path: '/export', methods: ['GET'], name: 'parametro_export')]
+    #[Route(path: '/export', name: 'parametro_export', methods: ['GET'])]
     public function export(Request $request, ParametroManager $manager): Response
     {
         $this->denyAccess(Access::EXPORT, 'parametro_index');
@@ -86,7 +86,7 @@ class ParametroController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'parametro_show', methods: ['GET'])]
+    #[Route(path: '/{id}/show', name: 'parametro_show', methods: ['GET'])]
     public function show(Parametro $parametro): Response
     {
         $this->denyAccess(Access::VIEW, 'parametro_index');

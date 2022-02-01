@@ -6,6 +6,7 @@ use Pidia\Apps\Demo\Entity\TecnicoEncargado;
 use Pidia\Apps\Demo\Form\TecnicoEncargadoType;
 use Pidia\Apps\Demo\Manager\TecnicoEncargadoManager;
 use Pidia\Apps\Demo\Security\Access;
+use Pidia\Apps\Demo\Util\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,7 +50,7 @@ class TecnicoEncargadoController extends BaseController
         ]);
     }
 
-    #[Route('/{id}', name: 'tecnico_encargado_show', methods: ['GET'])]
+    #[Route('/{id}/show', name: 'tecnico_encargado_show', methods: ['GET'])]
     public function show(TecnicoEncargado $tecnicoEncargado): Response
     {
         $this->denyAccess(Access::VIEW, 'tecnico_encargado_index');
@@ -112,10 +113,22 @@ class TecnicoEncargadoController extends BaseController
             'apellidoTecnico' => 'Apellidos',
             'dni' => 'DNI',
             'direccion' => 'direccion',
-//            'activo' => 'Activo',
         ];
+        $params = Paginator::params($request->query->all());
+        $objetos = $manager->repositorio()->filter($params, false);
+        $data = [];
+        /** @var TecnicoEncargado $objeto */
+        foreach ($objetos as $objeto) {
+            $item = [];
+            $item['nombreTecnico'] = $objeto->getNombreTecnico();
+            $item['apellidoTecnico'] = $objeto->getApellidoTecnico();
+            $item['dni'] = $objeto->getDni();
+            $item['direccion'] = $objeto->getDireccion();
+            $data[] = $item;
+            unset($item);
+        }
 
-        return $manager->exportOfQuery($request->query->all(), $headers, 'Reporte', 'tecnico_encargado');
+        return $manager->export($data, $headers, 'Reporte Tecnicos');
     }
 
     #[Route(path: '/{id}/delete', name: 'tecnico_encargado_delete_forever', methods: ['POST'])]

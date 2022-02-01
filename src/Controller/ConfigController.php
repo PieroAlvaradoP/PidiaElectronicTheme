@@ -73,7 +73,7 @@ final class ConfigController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'config_show', methods: ['GET'])]
+    #[Route(path: '/{id}/show', name: 'config_show', methods: ['GET'])]
     public function show(Config $config): Response
     {
         $this->denyAccess(Access::VIEW, 'config_index');

@@ -81,7 +81,7 @@ class UsuarioRolController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'usuario_rol_show', methods: ['GET'])]
+    #[Route(path: '/{id}/show', name: 'usuario_rol_show', methods: ['GET'])]
     public function show(UsuarioRol $rol): Response
     {
         $this->denyAccess(Access::VIEW, 'usuario_rol_index');

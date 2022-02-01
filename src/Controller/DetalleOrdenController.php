@@ -49,7 +49,7 @@ class DetalleOrdenController extends BaseController
         ]);
     }
 
-    #[Route('/{id}', name: 'detalle_orden_show', methods: ['GET'])]
+    #[Route('/{id}/show', name: 'detalle_orden_show', methods: ['GET'])]
     public function show(DetalleOrden $detalleOrden): Response
     {
         $this->denyAccess(Access::VIEW, 'detalle_orden_index');

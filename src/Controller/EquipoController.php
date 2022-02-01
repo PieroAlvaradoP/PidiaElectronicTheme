@@ -6,6 +6,7 @@ use Pidia\Apps\Demo\Entity\Equipo;
 use Pidia\Apps\Demo\Form\EquipoType;
 use Pidia\Apps\Demo\Manager\EquipoManager;
 use Pidia\Apps\Demo\Security\Access;
+use Pidia\Apps\Demo\Util\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,7 +50,7 @@ class EquipoController extends BaseController
         ]);
     }
 
-    #[Route('/{id}', name: 'equipo_show', methods: ['GET'])]
+    #[Route('/{id}/show', name: 'equipo_show', methods: ['GET'])]
     public function show(Equipo $equipo): Response
     {
         $this->denyAccess(Access::VIEW, 'equipo_index');
@@ -103,13 +104,26 @@ class EquipoController extends BaseController
     {
         $this->denyAccess(Access::EXPORT, 'equipo_marca_index');
         $headers = [
-//            'nombreMarca' => 'Nombre',
-//            'detalleMarca' => 'Detalle',
-//            'descripcion' => 'Descripcion',
-//            'activo' => 'Activo',
+            'modelo' => 'Modelo',
+            'numeroSerie' => 'Número de Serie',
+            'nombreEquipo' => 'Nombre Equipo',
+            'marca' => 'Marca',
         ];
+        $params = Paginator::params($request->query->all());
+        $objetos = $manager->repositorio()->filter($params, false);
+        $data = [];
+        /** @var Equipo $objeto */
+        foreach ($objetos as $objeto) {
+            $item = [];
+            $item['modelo'] = $objeto->getModelo();
+            $item['numeroSerie'] = $objeto->getNumeroSerie();
+            $item['nombreEquipo'] = $objeto->getNombreEquipo();
+            $item['marca'] = $objeto->getMarca();
+            $data[] = $item;
+            unset($item);
+        }
 
-        return $manager->exportOfQuery($request->query->all(), $headers, 'Equipo', 'equipo');
+        return $manager->export($data, $headers, 'Reporte Equipos');
     }
 
     #[Route(path: '/{id}/delete', name: 'equipo_delete_forever', methods: ['POST'])]

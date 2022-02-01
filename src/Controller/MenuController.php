@@ -97,7 +97,7 @@ class MenuController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'menu_show', methods: ['GET'])]
+    #[Route(path: '/{id}/show', name: 'menu_show', methods: ['GET'])]
     public function show(Menu $menu): Response
     {
         $this->denyAccess(Access::VIEW, 'menu_index');

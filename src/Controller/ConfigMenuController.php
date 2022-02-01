@@ -72,7 +72,7 @@ final class ConfigMenuController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'config_menu_show', methods: ['GET'])]
+    #[Route(path: '/{id}/show', name: 'config_menu_show', methods: ['GET'])]
     public function show(ConfigMenu $configMenu): Response
     {
         $this->denyAccess(Access::VIEW, 'config_menu_index');

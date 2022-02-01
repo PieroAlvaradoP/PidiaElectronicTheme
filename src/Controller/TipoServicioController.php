@@ -84,7 +84,7 @@ class TipoServicioController extends BaseController
         ]);
     }
 
-    #[Route('/{id}', name: 'tipo_servicio_delete', methods: ['POST'])]
+    #[Route('/{id}/show', name: 'tipo_servicio_delete', methods: ['POST'])]
     public function delete(Request $request, TipoServicio $tipoServicio, TipoServicioManager $manager): Response
     {
         $this->denyAccess(Access::DELETE, 'tipo_servicio_index');
@@ -119,33 +119,8 @@ class TipoServicioController extends BaseController
             $data[] = $item;
         }
 
-        return $manager->export($data, $headers, 'Reporte Tipo de Servicio', 'TipoServicio');
+        return $manager->export($data, $headers, 'Reporte Tipo de Servicio');
     }
-
-//    #[Route(path: '/export', name: 'tipo_servicio_export', methods: ['GET'])]
-//    public function export(Request $request, TipoServicioManager $manager): Response
-//    {
-//        $this->denyAccess(Access::EXPORT, 'tipo_servicio_index');
-//        $headers = [
-//            'nombreServicio' => 'Nombre',
-//            'detalleServicio' => 'Detalle',
-//        ];
-//
-//        $params = Paginator::params($request->query->all());
-//        $objetos = $manager->repositorio()->filter($params, false);
-//        $data = [];
-//        /** @var TipoServicio $objeto */
-//        foreach ($objetos as $objeto) {
-//            $item = [];
-//            $item['nombreServicio'] = $objeto->getNombreServicio();
-//            $item['detalleServicio'] = $objeto->getDetalleServicio();
-//            $data[] = $item;
-    ////            unset($item);
-//        }
-//
-//        return $manager->export($data, $headers, 'Tipo_servicio', 'TipoServicio');
-    ////        return $manager->exportOfQuery($request->query->all(), $headers, 'Reporte', 'usuario');
-//    }
 
     #[Route(path: '/{id}/delete', name: 'tipo_servicio_delete_forever', methods: ['POST'])]
     public function deleteForever(Request $request,

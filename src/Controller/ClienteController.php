@@ -50,7 +50,7 @@ class ClienteController extends BaseController
         ]);
     }
 
-    #[Route('/{id}', name: 'cliente_show', methods: ['GET'])]
+    #[Route('/{id}/show', name: 'cliente_show', methods: ['GET'])]
     public function show(Cliente $cliente): Response
     {
         $this->denyAccess(Access::VIEW, 'cliente_index');
@@ -98,34 +98,6 @@ class ClienteController extends BaseController
         return $this->redirectToRoute('cliente_index');
     }
 
-//    #[Route(path: '/export', name: 'cliente_export', methods: ['GET'])]
-//    public function export(Request $request, ClienteManager $manager): Response
-//    {
-//        $this->denyAccess(Access::EXPORT, 'cliente_index');
-//        $headers = [
-//            'nombreCliente' => 'Nombre',
-//            'apellidosCliente' => 'Apellidos',
-//            'ruc' => 'RUC',
-//            'direccionCliente' => 'Direccion',
-//            'telefono' => 'Telefono',
-//        ];
-//        $params = Paginator::params($request->query->all());
-//        $objetos = $manager->repositorio()->filter($params, false);
-//        $data = [];
-//        /** @var Cliente $objeto */
-//        foreach ($objetos as $objeto) {
-//            $item = [];
-//            $item['nombreCliente'] = $objeto->getNombreCliente();
-//            $item['apellidosCliente'] = $objeto->getApellidosCliente();
-//            $item['ruc'] = $objeto->getRuc();
-//            $item['direccionCliente'] = $objeto->getDireccionCliente();
-//            $item['telefono'] = $objeto->getDireccionCliente();
-//            $data[] = $item;
-//        }
-//
-//        return $manager->export($data, $headers, 'Reporte Cliente', 'cliente');
-//    }
-
     #[Route(path: '/export', name: 'cliente_export', methods: ['GET'])]
     public function export(Request $request, ClienteManager $manager): Response
     {
@@ -137,23 +109,22 @@ class ClienteController extends BaseController
             'direccionCliente' => 'Direccion',
             'telefono' => 'telefono',
         ];
-//        $params = Paginator::params($request->query->all());
-//        $objetos = $manager->repositorio()->filter($params, false);
-//        $data = [];
-//        /** @var Cliente $objeto */
-//        foreach ($objetos as $objeto) {
-//            $item = [];
-//            $item['nombreCliente'] = $objeto->getNombreCliente();
-//            $item['apellidosCliente'] = $objeto->getApellidosCliente();
-//            $item['ruc'] = $objeto->getRuc();
-//            $item['direccionCliente'] = $objeto->getDireccionCliente();
-//            $item['telefono'] = $objeto->getTelefono();
-//            $data[] = $item;
-////            unset($item);
-//        }
+        $params = Paginator::params($request->query->all());
+        $objetos = $manager->repositorio()->filter($params, false);
+        $data = [];
+        /** @var Cliente $objeto */
+        foreach ($objetos as $objeto) {
+            $item = [];
+            $item['nombreCliente'] = $objeto->getNombreCliente();
+            $item['apellidosCliente'] = $objeto->getApellidosCliente();
+            $item['ruc'] = $objeto->getRuc();
+            $item['direccionCliente'] = $objeto->getDireccionCliente();
+            $item['telefono'] = $objeto->getTelefono();
+            $data[] = $item;
+            unset($item);
+        }
 
-//        return $manager->export($data, $headers, 'Reporte');
-        return $manager->exportOfQuery($request->query->all(), $headers, 'Reporte');
+        return $manager->export($data, $headers, 'Reporte Clientes');
     }
 
     #[Route(path: '/{id}/delete', name: 'cliente_delete_forever', methods: ['POST'])]

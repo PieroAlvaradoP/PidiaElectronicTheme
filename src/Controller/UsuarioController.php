@@ -99,7 +99,7 @@ final class UsuarioController extends BaseController
         ]);
     }
 
-    #[Route(path: '/{id}', name: 'usuario_show', methods: 'GET')]
+    #[Route(path: '/{id}/show', name: 'usuario_show', methods: 'GET')]
     public function show(Usuario $usuario): Response
     {
         $this->denyAccess(Access::VIEW, 'usuario_index', $usuario);

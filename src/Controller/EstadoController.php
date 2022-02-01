@@ -7,6 +7,7 @@ use Pidia\Apps\Demo\Form\EstadoType;
 use Pidia\Apps\Demo\Manager\EstadoManager;
 use Pidia\Apps\Demo\Manager\TecnicoEncargadoManager;
 use Pidia\Apps\Demo\Security\Access;
+use Pidia\Apps\Demo\Util\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,7 +51,7 @@ class EstadoController extends BaseController
         ]);
     }
 
-    #[Route('/{id}', name: 'estado_show', methods: ['GET'])]
+    #[Route('/{id}/show', name: 'estado_show', methods: ['GET'])]
     public function show(Estado $estado): Response
     {
         $this->denyAccess(Access::VIEW, 'estado_index');
@@ -104,8 +105,18 @@ class EstadoController extends BaseController
         $headers = [
             'nombreEstado' => 'Estado',
         ];
+        $params = Paginator::params($request->query->all());
+        $objetos = $manager->repositorio()->filter($params, false);
+        $data = [];
+        /** @var Estado $objeto */
+        foreach ($objetos as $objeto) {
+            $item = [];
+            $item['nombreEstado'] = $objeto->getNombreEstado();
+            $data[] = $item;
+            unset($item);
+        }
 
-        return $manager->exportOfQuery($request->query->all(), $headers, 'estado', 'estado');
+        return $manager->export($data, $headers, 'Reporte Estados');
     }
 
     #[Route(path: '/{id}/delete', name: 'estado_delete_forever', methods: ['POST'])]
