@@ -12,7 +12,19 @@
 
 {% form_theme form _self %}
 
-{% block _config_menus_label -%}
+{% block _orden_servicio_label -%}
+{% endblock %}
+
+{% block _orden_servicio_detalleOrdens_entry_widget -%}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_column(
+        actions.frm_column_field(form.precio),
+        actions.frm_column_field(form.tipoServicioDetalleOrden)
+    ) }}
+    {{ actions.frm_column(
+        actions.frm_column_field(form.observacion),
+        null, null, null, 2
+    ) }}
 {% endblock %}
 
 {% block _config_menus_entry_widget -%}
@@ -42,16 +54,11 @@
 
 {% block _javascripts %}
     <script src="{{ asset('js/select2.js') }}"></script>
-    <script>
-        jQuery(document).ready(function() {
-            Select2();
-        });
-    </script>
-
-    <script src = "{{ asset('js/collection.js') }}"></script>
+    <script src = "{{ asset('js/select2.js') }}"></script>
     <script>
         jQuery(document).ready(function (){
-            Collection.init('#orden_servicio_detalleOrdens')
+            Select2();
+            Collection.init('#orden_servicio_detallesOrden')
         });
     </script>
 {% endblock %}

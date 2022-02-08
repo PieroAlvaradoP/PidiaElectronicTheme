@@ -34,8 +34,8 @@
         <td>{{ orden.numeroOrden}}</td>
         <td>{{ orden.clienteOrden}}</td>
         <td>{{ orden.tecnicoOrden }}</td>
-        <td>{{ orden.fechaIngreso }}</td>
-        <td>{{ orden.fechaSalida }}</td>
+        <td>{{ orden.fechaIngreso | date('d-m-Y')}}</td>
+        <td>{{ orden.fechaSalida | date('d-m-Y') }}</td>
         <td>{{ orden.equipo }}</td>
 {#        <td>{{ orden.estadoOrden }}</td>#}
         <td>{% for estado in orden.estadoOrden %}

@@ -1180,7 +1180,7 @@
     {%- endif -%}
 {% endmacro %}
 
-{% macro th(label, trans = false, class = '', attributes = '') %}
+{% macro th(label, trans = false, class = 'fw-bolder', attributes = '') %}
     {% if trans %}
         <th class="{{ class }}" {{ attributes }}>{{ label | gtrans }}</th>
     {% else %}
